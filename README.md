@@ -16,6 +16,10 @@ Para iniciar el cliente en local, basta con entrar en su carpeta, ya sea desde u
 ```bash
 cd react-client
 ```
+Antes de iniciar el cliente, tenemos que asegurarnos que tenemos las dependencias del cliente instaladas, para esto ejecutaremos el comando:
+```bash
+npm install
+```
 Ahora, podríamos simplemente iniciar el proyecto
 en su entorno de desarrollo, ejecutando el siguiente
 comando en la terminal.
