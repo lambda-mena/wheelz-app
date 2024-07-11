@@ -1,4 +1,6 @@
 # Frontend - React
+## Recursos Importantes
+ - [Flujo de Usuario](https://miro.com/app/board/uXjVKz8u70Y=/?share_link_id=154811904389)
 ## Mobile First
 Para crear el aplicativo de la manera más responsiva posible, lo mejor será iniciar con una metodología Mobile First, creando las vistas pensandolas primero para moviles, y luego se adaptaran para otras resoluciones de tipo tablets u ordenador.
 ## Tecnologías Usadas
