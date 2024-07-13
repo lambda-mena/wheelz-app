@@ -22,9 +22,12 @@ public class Usuario {
     private String nombre;
     @Column(name = "apellido")
     private String apellido;
+    @Column(name = "documento", unique = true)
     private long documento;
+    @Column(name = "email", unique = true)
     private String email;
+    @Column(name = "contraseña")
     private String contraseña;
     @Enumerated(EnumType.STRING)
-    private TipoUsuario customerType;
+    private TipoUsuario tipoUsuario;
 }
