@@ -46,6 +46,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.findByUsuarioId(id));
     }
 
+    @PostMapping
     public ResponseEntity<?> saveUsuario(@Valid @RequestBody UsuarioSavingRequest usuario, BindingResult result){
         if (result.hasErrors()){
             List<String> errorMessages = result.getAllErrors()
