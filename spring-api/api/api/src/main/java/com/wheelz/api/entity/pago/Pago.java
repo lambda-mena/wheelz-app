@@ -1,5 +1,6 @@
 package com.wheelz.api.entity.pago;
 
+import com.wheelz.api.entity.reserva.Reserva;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,9 +20,9 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    /*Por definir entidad*/
-    /*@Column(name = "id_reserva")
-    private long idReserva;*/
+    @ManyToOne
+    @JoinColumn(name = "id_reserva", referencedColumnName = "id")
+    private Reserva reserva;
     @Column(name = "monto")
     private double monto;
     @Column(name = "fecha_pago")

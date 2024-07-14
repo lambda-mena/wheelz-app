@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 @Entity
 @Table(name= "reserva")
 @AllArgsConstructor
@@ -28,10 +31,10 @@ public class Reserva {
     private Carro Carro;*/
 
     @Column(name = "fecha_entrega")
-    private long fechaEntrega;
+    private Date fechaEntrega;
 
     @Column(name = "fecha_devolucion")
-    private long fechaDevolucion;
+    private Date fechaDevolucion;
 
     @Column(name = "id_tipo_cobertura")
     private long idTipoCobertura;
@@ -40,5 +43,5 @@ public class Reserva {
     private EstadoReserva estadoReserva;
 
     @Column(name = "precio_total")
-    private String precioTotal;
+    private BigDecimal precioTotal;
 }

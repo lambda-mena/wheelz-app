@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -14,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class PagoResponse {
     private long id;
-    private double monto;
+    private BigDecimal monto;
     private Date fechaPago;
     private TipoEstadoPago tipoPago;
 }
