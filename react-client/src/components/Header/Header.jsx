@@ -1,10 +1,11 @@
 import { Avatar, Navbar } from 'flowbite-react';
 import defaultAvatar from '../../assets/img/default-avatar.png';
+import { Link } from 'react-router-dom'
 
 export const Header = () => {
   return (
     <Navbar fluid rounded>
-      <Navbar.Brand href='/'>
+      <Navbar.Brand as={Link} to='/'>
         <img src='./favicon.ico' alt='wheelz-icon' />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">WheelZ</span>
       </Navbar.Brand>
@@ -13,10 +14,10 @@ export const Header = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href='/' active>Panel de Administración</Navbar.Link>
-        <Navbar.Link href='#'>Vehiculos</Navbar.Link>
-        <Navbar.Link href='#'>Seguros</Navbar.Link>
-        <Navbar.Link href='#'>Usuarios</Navbar.Link>
+        <Navbar.Link as={Link} to='/' active>Panel de Administración</Navbar.Link>
+        <Navbar.Link as={Link} to='/vehiculos'>Vehiculos</Navbar.Link>
+        <Navbar.Link as={Link} to='/seguros'>Seguros</Navbar.Link>
+        <Navbar.Link as={Link} to='/usuarios'>Usuarios</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   )
