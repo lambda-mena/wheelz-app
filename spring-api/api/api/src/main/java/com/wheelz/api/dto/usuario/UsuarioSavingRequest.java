@@ -4,7 +4,9 @@ import com.wheelz.api.entity.usuario.TipoUsuario;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +27,7 @@ public class UsuarioSavingRequest {
     private String email;
     @NotBlank(message = "La contraseña no puede estar vacio")
     private String contraseña;
-    @NotBlank(message = "El documento no puede estar vacio")
+    @NotNull
     private long documento;
     @NotNull
     @Enumerated(EnumType.STRING)

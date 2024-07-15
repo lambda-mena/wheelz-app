@@ -48,7 +48,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponse save(UsuarioSavingRequest usuarioSavingRequest) {
-        verificacionDatosRepetidos(usuarioSavingRequest);
+        //verificacionDatosRepetidos(usuarioSavingRequest);
 
         Usuario usuario = usuarioMapper.usuarioRequestToPost(usuarioSavingRequest);
         try {
