@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AdminLayout from './layouts/AdminLayout'
 import AssurancePage from './pages/Assurance'
-import NotFoundPage from './pages/Error404'
+import ErrorPage from './pages/Error404'
 import VehiclePage from './pages/Vehicle'
 import HomePage from './pages/Home'
 import UserPage from './pages/User'
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <AdminLayout />,
-    errorElement: <NotFoundPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
