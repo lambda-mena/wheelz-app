@@ -20,13 +20,17 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
+
     @ManyToOne
     @JoinColumn(name = "id_reserva", referencedColumnName = "id")
     private Reserva reserva;
+
     @Column(name = "monto")
     private double monto;
+
     @Column(name = "fecha_pago")
     private Date fechaPago;
+
     @Enumerated(EnumType.STRING)
     private TipoEstadoPago tipoPago;
 }
