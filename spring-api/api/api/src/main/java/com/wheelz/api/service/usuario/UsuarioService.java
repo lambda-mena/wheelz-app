@@ -4,6 +4,7 @@ import com.wheelz.api.dto.usuario.LoginRequestDTO;
 import com.wheelz.api.dto.usuario.UsuarioResponse;
 import com.wheelz.api.dto.usuario.UsuarioSavingRequest;
 import com.wheelz.api.entity.usuario.Usuario;
+import com.wheelz.api.exception.RequestException;
 import com.wheelz.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
@@ -15,10 +16,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
     @Lazy
-    private UsuarioRepository usuarioRepository;
-    @Lazy
-    private UsuarioMapper usuarioMapper;
+    private final UsuarioMapper usuarioMapper;
+
+
     public Usuario login(LoginRequestDTO loginRequestDTO) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(loginRequestDTO.getEmail());
         if (optionalUsuario.isPresent()){
@@ -48,23 +51,24 @@ public class UsuarioService {
     }
 
     public UsuarioResponse save(UsuarioSavingRequest usuarioSavingRequest) {
-        //verificacionDatosRepetidos(usuarioSavingRequest);
+        verificacionDatosRepetidos(usuarioSavingRequest);
 
         Usuario usuario = usuarioMapper.usuarioRequestToPost(usuarioSavingRequest);
         try {
             return usuarioMapper.toUsuarioResponse(usuarioRepository.save(usuario));
         } catch (Exception e) {
-            throw new RuntimeException("Error al guardar el usuario: " + e.getMessage());
+            throw new RequestException("Error al guardar el usuario: " + e.getMessage());
         }
     }
     public void verificacionDatosRepetidos(UsuarioSavingRequest usuarioSavingRequest){
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuarioSavingRequest.getEmail());
         if (usuarioOptional.isPresent()) {
-            throw new RuntimeException("Email repetido!");
+            throw new RequestException("Email repetido!");
         }
         Optional<Usuario> usuarioByDocumento = usuarioRepository.findByDocumento(usuarioSavingRequest.getDocumento());
         if (usuarioByDocumento.isPresent()) {
-            throw new RuntimeException("Documento repetido!");
+            throw new RequestException("Documento repetido!");
         }
     }
+
 }

@@ -3,10 +3,7 @@ package com.wheelz.api.dto.usuario;
 import com.wheelz.api.entity.usuario.TipoUsuario;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,8 +23,10 @@ public class UsuarioSavingRequest {
     @Email
     private String email;
     @NotBlank(message = "La contraseña no puede estar vacio")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String contraseña;
     @NotNull
+    @Digits(integer = 10, fraction = 0, message = "El documento debe ser un número con un máximo de 10 dígitos")
     private long documento;
     @NotNull
     @Enumerated(EnumType.STRING)
