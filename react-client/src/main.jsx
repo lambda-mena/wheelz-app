@@ -8,6 +8,7 @@ import HomePage from './pages/Home'
 import UserPage from './pages/User'
 import React from 'react'
 import './index.css'
+import Login from './pages/Login'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/seguros',
         element: <AssurancePage />
+      },
+      {
+        path: '/login' ,
+        element: <Login/>
       }
     ]
   },
