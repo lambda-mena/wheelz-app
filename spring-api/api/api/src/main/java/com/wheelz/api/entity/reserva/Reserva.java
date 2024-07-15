@@ -1,5 +1,6 @@
 package com.wheelz.api.entity.reserva;
 
+import com.wheelz.api.entity.carro.Carros;
 import com.wheelz.api.entity.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,10 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     private Usuario usuario;
-    /*
+
     @ManyToOne
     @JoinColumn(name = "id_carro", referencedColumnName = "id")
-    private Carro Carro;*/
+    private Carros Carro;
 
     @Column(name = "fecha_entrega")
     private Date fechaEntrega;
@@ -36,8 +37,9 @@ public class Reserva {
     @Column(name = "fecha_devolucion")
     private Date fechaDevolucion;
 
-    @Column(name = "id_tipo_cobertura")
-    private long idTipoCobertura;
+    @OneToOne
+    @JoinColumn(name = "id_tipo_cobertura", referencedColumnName = "id")
+    private TipoCobertura idTipoCobertura;
 
     @Enumerated(EnumType.STRING)
     private EstadoReserva estadoReserva;

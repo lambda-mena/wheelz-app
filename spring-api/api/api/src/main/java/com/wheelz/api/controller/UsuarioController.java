@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class UsuarioController {
+
     private final UsuarioService usuarioService;
     @PostMapping("/login")
     public ResponseEntity<?> loginUsuario(@Valid @RequestBody LoginRequestDTO loginRequestDTO){

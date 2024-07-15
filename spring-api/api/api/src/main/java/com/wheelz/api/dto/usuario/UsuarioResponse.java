@@ -19,5 +19,4 @@ public class UsuarioResponse {
     private long documento;
     private TipoUsuario tipoUsuario;
 
-
 }

@@ -46,7 +46,7 @@ public class UsuarioService {
         if (id == null|| id == 0){
             throw new RuntimeException("Id invalido!!!");
         }
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado.!"));
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RequestException("Usuario no encontrado.!"));
         return usuarioMapper.toUsuarioResponse(usuario);
     }
 
