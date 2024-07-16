@@ -27,6 +27,9 @@ public class Carros {
     @Column(name = "modelo")
     private String modelo;
 
+    @Column(name = "placa", unique = true)
+    private String placa;
+
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
@@ -41,4 +44,7 @@ public class Carros {
 
     @Column(name = "disponibilidad")
     private Boolean disponibilidad;
+
+    @Column(name = "active")
+    private Boolean active;
 }
