@@ -1,7 +1,8 @@
 package com.wheelz.api.entity.usuario;
 
-import com.wheelz.api.entity.usuario.TipoUsuario;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,8 +33,13 @@ public class Usuario {
     private String email;
 
     @Column(name = "contraseña")
+    @NotBlank(message = "La contraseña no puede estar vacía")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String contraseña;
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
+
+    @Column(name = "activo")
+    private boolean active ;
 }

@@ -17,18 +17,25 @@ import org.antlr.v4.runtime.misc.NotNull;
 public class UsuarioSavingRequest {
     @NotBlank(message = "El nombre no puede estar vacio")
     private String nombre;
+
     @NotBlank(message = "El apellido no puede estar vacio")
     private String apellido;
+
     @NotBlank(message = "El email no puede estar vacio")
     @Email
     private String email;
+
     @NotBlank(message = "La contraseña no puede estar vacio")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String contraseña;
+
     @NotNull
     @Digits(integer = 10, fraction = 0, message = "El documento debe ser un número con un máximo de 10 dígitos")
     private long documento;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
+
+    //private boolean active;
 }

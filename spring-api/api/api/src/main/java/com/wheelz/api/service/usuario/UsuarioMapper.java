@@ -20,6 +20,7 @@ public class UsuarioMapper {
                 .contraseña(usuario.getContraseña())
                 .documento(usuario.getDocumento())
                 .tipoUsuario(usuario.getTipoUsuario())
+                .active(usuario.isActive())
                 .build();
     }
 
