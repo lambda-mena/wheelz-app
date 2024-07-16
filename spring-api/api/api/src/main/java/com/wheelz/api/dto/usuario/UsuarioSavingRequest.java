@@ -26,7 +26,10 @@ public class UsuarioSavingRequest {
     private String email;
 
     @NotBlank(message = "La contraseña no puede estar vacio")
-    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
+            message = "La contraseña debe tener al menos 8 caracteres, un número, una letra mayúscula, una letra minúscula y un carácter especial"
+    )
     private String contraseña;
 
     @NotNull

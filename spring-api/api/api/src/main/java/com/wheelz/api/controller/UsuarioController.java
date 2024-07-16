@@ -74,7 +74,7 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateCustomer(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateRequest usuarioUpdate) throws BadRequestException{
+    public ResponseEntity<?> updateUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateRequest usuarioUpdate) throws BadRequestException{
         return ResponseEntity.ok(usuarioService.update(id,usuarioUpdate));
     }
 

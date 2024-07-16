@@ -46,7 +46,7 @@ public class UsuarioService {
 
     public UsuarioResponse findByUsuarioId(Long id) {
         if (id == null|| id == 0){
-            throw new RuntimeException("Id invalido!!!");
+            throw new RequestException("Id invalido!!!");
         }
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RequestException("Usuario no encontrado.!"));
         return usuarioMapper.toUsuarioResponse(usuario);
@@ -81,41 +81,33 @@ public class UsuarioService {
         }
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("El ID del usuario no existe.!!!"));
-
-        String nombre = usuarioUpdate.getNombre();
-        validarNullVacio(nombre,"El nombre");
-        validarCaracteresEspeciales(nombre,"El nombre");
-        String apellido = usuarioUpdate.getApellido();
-        validarNullVacio(apellido,"El apellido");
-        validarCaracteresEspeciales(apellido,"El apellido");
-        String email = usuarioUpdate.getEmail();
-        validarNullVacio(email,"El email");
-        Long documento = usuarioUpdate.getDocumento();
-        if (documento == null || documento == 0) {
-            throw new BadRequestException("Documento no puede ser ni nulo ni 0.");
+        if (usuarioUpdate.getNombre() != null) {
+            usuario.setNombre(usuarioUpdate.getNombre());
         }
-         usuarioUpdate.setNombre(nombre);
-         usuarioUpdate.setApellido(apellido);
-         usuarioUpdate.setEmail(email);
-         usuarioUpdate.setDocumento(documento);
-
-        Boolean isActive = usuarioUpdate.isActive();
-        if (isActive != null) {
-            usuario.setActive(isActive);
+        if (usuarioUpdate.getApellido() != null) {
+            usuario.setApellido(usuarioUpdate.getApellido());
         }
+        if (usuarioUpdate.getEmail() != null) {
+            usuario.setEmail(usuarioUpdate.getEmail());
+        }
+        if (usuarioUpdate.getContraseña() != null) {
+            usuario.setContraseña(usuarioUpdate.getContraseña());
+        }
+        if (usuarioUpdate.getDocumento() != 0) {
+            String documentoString = String.valueOf(usuarioUpdate.getDocumento());
+            if (documentoString.length() > 10) {
+                throw new RequestException("El documento no puede tener más de 10 números");
+            }
+            if (documentoString.length() < 6) {
+                throw new RequestException("El documento no puede tener menos de 6 números");
+            }
+            usuario.setDocumento(usuarioUpdate.getDocumento());
+        }
+        usuario.setActive(true);
 
         return usuarioMapper.toUsuarioResponse(usuarioRepository.save(usuario));
     }
-    public static void validarNullVacio(String field, String fieldName) throws BadRequestException {
-        if (field == null || field.isEmpty()) {
-            throw new BadRequestException(fieldName + " no puede estar vacío.");
-        }
-    }
-    public static void validarCaracteresEspeciales(String field, String fieldName) {
-        if (field.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
-            throw new RequestException(fieldName + " no debe contener caracteres especiales.");
-        }
-    }
+
 
     public void desactivar(Long id){
         if (id == null || id <= 0) {
