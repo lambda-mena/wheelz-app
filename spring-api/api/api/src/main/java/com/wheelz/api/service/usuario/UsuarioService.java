@@ -18,11 +18,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
-
     private final UsuarioRepository usuarioRepository;
     @Lazy
     private final UsuarioMapper usuarioMapper;
-
 
     public Usuario login(LoginRequestDTO loginRequestDTO) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(loginRequestDTO.getEmail());
@@ -124,5 +122,4 @@ public class UsuarioService {
         usuario.setActive(false);
         usuarioRepository.save(usuario);
     }
-
 }
