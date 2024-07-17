@@ -18,6 +18,6 @@ public class UsuarioResponse {
     private String contraseña;
     private long documento;
     private TipoUsuario tipoUsuario;
-
+    private boolean active;
 
 }

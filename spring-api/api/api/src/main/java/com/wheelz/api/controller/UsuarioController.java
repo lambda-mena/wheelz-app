@@ -3,10 +3,13 @@ package com.wheelz.api.controller;
 import com.wheelz.api.dto.usuario.LoginRequestDTO;
 import com.wheelz.api.dto.usuario.UsuarioResponse;
 import com.wheelz.api.dto.usuario.UsuarioSavingRequest;
+import com.wheelz.api.dto.usuario.UsuarioUpdateRequest;
+import com.wheelz.api.entity.usuario.TipoUsuario;
 import com.wheelz.api.entity.usuario.Usuario;
 import com.wheelz.api.service.usuario.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -45,7 +48,6 @@ public class UsuarioController {
     public ResponseEntity<?> getUsuarioPorId(@PathVariable Long id){
         return ResponseEntity.ok(usuarioService.findByUsuarioId(id));
     }
-
     @PostMapping
     public ResponseEntity<?> saveUsuario(@Valid @RequestBody UsuarioSavingRequest usuario, BindingResult result){
         if (result.hasErrors()){
@@ -59,14 +61,25 @@ public class UsuarioController {
             return ResponseEntity.ok(usuarioService.save(usuario));
         } catch (IllegalArgumentException e) {
             String errorMessage = e.getMessage();
-            if (errorMessage.contains("Invalid customer type")) {
+            if (errorMessage.contains("Tipo de usuario invalido")) {
                 // Construir un mensaje más específico
-                String acceptedValues = Arrays.stream(UsuarioType.values())
+                String acceptedValues = Arrays.stream(TipoUsuario.values())
                         .map(Enum::name)
                         .collect(Collectors.joining(", "));
-                errorMessage = String.format("Invalid value for customer type. Accepted values are: [%s]", acceptedValues);
+                errorMessage = String.format("Valor invalido para tipo de usuario. Los valores aceptados son: [%s]", acceptedValues);
             }
             return ResponseEntity.badRequest().body(Collections.singletonMap("error", errorMessage));
         }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateRequest usuarioUpdate) throws BadRequestException{
+        return ResponseEntity.ok(usuarioService.update(id,usuarioUpdate));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> desactivarUsuario(@PathVariable Long id){
+        usuarioService.desactivar(id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }
