@@ -125,7 +125,7 @@ const UserPage = () => {
                     onClose={() => setIsDeleteModalOpen(false)}
                     onDelete={handleDeleteConfirm}
                     userName={selectedUser?.name}
-                />
+                /> 
             )}
             {isAddEditModalOpen && (
                 <AddEditModal

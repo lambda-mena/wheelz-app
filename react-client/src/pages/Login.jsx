@@ -4,6 +4,8 @@ import { Button } from 'flowbite-react';
 import { HiMail , HiLockClosed } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 import Input from '../styled-components/Input';
+import TextInput from '../styled-components/Inputs/TextInput';
+import PassInput from '../styled-components/Inputs/PassInput';
 
 const Login = () => {
 
@@ -19,10 +21,11 @@ const Login = () => {
     return (
         <>
             <div className='flex-1 mx-auto content-center'>
+                <h1 className='block text-5xl font-bold text-center mb-9 text-cyan-700'>WheelZ</h1>
                 <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(submit)}>
-                    <Input method={register} required={true} type={'email'} icon={<HiMail/>} text={'Email'} placeholder={'name@wheelz.com'} name={'email'}/>
+                    <TextInput method={register} required={true} icon={<HiMail/>} placeholder={'name@wheelz.com'} name={'email'}/>
 
-                    <Input method={register} required={true} type={'password'} icon={<HiLockClosed/>} text={'Password'} placeholder={'*******'} name={'pass'}/>
+                    <PassInput method={register} required={true} icon={<HiLockClosed/>} placeholder={'*******'} name={'pass'}/>
                     
                     <Button type="submit">Ingresar</Button>
                 </form>

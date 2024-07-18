@@ -1,97 +1,109 @@
 import React from 'react';
-import { Modal, Button, TextInput, Label } from "flowbite-react";
+import { Modal, Button, Label } from "flowbite-react";
+import { useForm } from 'react-hook-form';
+import { HiMail , HiOutlineUser , HiPhone , HiLibrary} from "react-icons/hi";
+import TextInput from '../../styled-components/Inputs/TextInput';
+import SelectInput from '../../styled-components/Inputs/SelectInput';
+
 
 const AddEditModal = ({ isOpen, onClose, onSave, data, onChange, mode }) => {
+
+    const { register, handleSubmit } = useForm();
+
+    const cities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Cúcuta', 'Bucaramanga', 'Pereira', 'Santa Marta', 'Ibagué'];
+    const userType = ['Admin','User'];
+    const status = ['Active','Inactive'];
+
+    const submit = (data)=>{
+        console.log(data);
+    }
+
     return (
         <Modal show={isOpen} onClose={onClose}>
+            
             <Modal.Header>{mode === 'add' ? 'Add User' : 'Edit User'}</Modal.Header>
             <Modal.Body>
+            <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(submit)}>
                 <div className="space-y-6">
                     <div>
                         <Label htmlFor="name" value="Name" />
                         <TextInput
-                            id="name"
-                            type="text"
+                            icon={<HiOutlineUser/>}
+                            method={register}
                             name="name"
-                            placeholder="Name"
-                            value={data.name}
-                            onChange={onChange}
-                            required
-                            className="focus:ring-0"
+                            placeholder="Name" 
+                            required={true}
                         />
                     </div>
                     <div>
                         <Label htmlFor="email" value="Email" />
                         <TextInput
-                            id="email"
-                            type="email"
+                            icon={<HiMail/>}
+                            method={register}
                             name="email"
                             placeholder="Email"
-                            value={data.email}
-                            onChange={onChange}
-                            required
-                            className="focus:ring-0"
+                            required={true}
                         />
                     </div>
                     <div>
                         <Label htmlFor="phone" value="Phone" />
                         <TextInput
-                            id="phone"
-                            type="text"
+                            icon={<HiPhone/>}
+                            method={register}
                             name="phone"
                             placeholder="Phone"
-                            value={data.phone}
-                            onChange={onChange}
-                            required
-                            className="focus:ring-0"
+                            required={true}
                         />
                     </div>
                     <div>
                         <Label htmlFor="city" value="City" />
-                        <select id="city" name="city" value={data.city} onChange={onChange} required className="block w-full p-2 border border-gray-300 rounded">
-                            <option value="">Select City</option>
-                            {['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Cúcuta', 'Bucaramanga', 'Pereira', 'Santa Marta', 'Ibagué'].map((city, index) => (
-                                <option key={index} value={city}>
-                                    {city}
-                                </option>
-                            ))}
-                        </select>
+                        <SelectInput
+                            method={register}
+                            name="city"
+                            required={true}
+                            values={cities}
+                        />
                     </div>
                     <div>
                         <Label htmlFor="address" value="Address" />
                         <TextInput
-                            id="address"
-                            type="text"
+                            icon={<HiLibrary/>}
+                            method={register}
                             name="address"
                             placeholder="Address"
-                            value={data.address}
-                            onChange={onChange}
-                            required
-                            className="focus:ring-0"
+                            required={true}
                         />
                     </div>
                     <div>
                         <Label htmlFor="userType" value="User Type" />
-                        <select id="userType" name="userType" value={data.userType} onChange={onChange} required className="block w-full p-2 border border-gray-300 rounded">
-                            <option value="Client">Client</option>
-                            <option value="Admin">Admin</option>
-                        </select>
+                        <SelectInput
+                            method={register}
+                            name="userType"
+                            required={true}
+                            values={userType}
+                        />
                     </div>
                     <div>
                         <Label htmlFor="status" value="Status" />
-                        <select id="status" name="status" value={data.status} onChange={onChange} required className="block w-full p-2 border border-gray-300 rounded">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                        <SelectInput
+                            method={register}
+                            name="status"
+                            required={true}
+                            values={status}
+                        />
                     </div>
                 </div>
-            </Modal.Body>
-            <Modal.Footer>
+                <Button type='submit'>{mode === 'add' ? 'Add User' : 'Update User'}</Button>
                 <Button color="gray" onClick={onClose}>
                     Cancel
                 </Button>
-                <Button onClick={onSave}>{mode === 'add' ? 'Add User' : 'Update User'}</Button>
+                </form>
+            </Modal.Body>
+            <Modal.Footer>
+                
+                
             </Modal.Footer>
+            
         </Modal>
     );
 };
