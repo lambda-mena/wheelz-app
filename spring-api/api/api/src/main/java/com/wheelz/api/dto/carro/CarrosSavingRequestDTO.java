@@ -42,4 +42,7 @@ public class CarrosSavingRequestDTO {
 
     @NotNull(message = "La disponibilidad es obligatoria.")
     private Boolean disponibilidad;
+
+    @NotNull(message = "El año es obligatoria.")
+    private int año;
 }

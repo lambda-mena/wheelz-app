@@ -29,7 +29,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "id_carro", referencedColumnName = "id")
-    private Carros Carro;
+    private Carros carro;
 
     @Column(name = "fecha_entrega")
     private Date fechaEntrega;

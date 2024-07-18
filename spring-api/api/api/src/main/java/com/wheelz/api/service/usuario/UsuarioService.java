@@ -23,7 +23,6 @@ public class UsuarioService {
     @Lazy
     private final UsuarioMapper usuarioMapper;
 
-
     public Usuario login(LoginRequestDTO loginRequestDTO) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(loginRequestDTO.getEmail());
         if (optionalUsuario.isPresent()){
@@ -39,7 +38,6 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponse> findByAll() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarioRepository.findAll().stream()
                 .map(usuarioMapper::toUsuarioResponse).toList();
     }

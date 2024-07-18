@@ -14,12 +14,12 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class CarrosUpdateRequestDTO {
 
-    private String imagenes;
-
     @Positive(message = "El precio por día debe de ser un valor positivo.")
     private BigDecimal precioDia;
 
     private Boolean disponibilidad;
+
+    private String imagenes;
 
     private Boolean activo;
 
