@@ -13,6 +13,8 @@ const PaginationComponent = ({ currentPage, totalPages, totalUsers, onPageChange
                 showIcons={true}
                 totalPages={totalPages}
                 className="max-w-[90vw] sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto"
+                previousLabel='Anterior'
+                nextLabel='Siguiente'
             />
         </div>
     );

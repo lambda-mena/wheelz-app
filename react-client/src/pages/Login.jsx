@@ -23,7 +23,7 @@ const Login = () => {
             <div className='flex-1 mx-auto content-center'>
                 <h1 className='block text-5xl font-bold text-center mb-9 text-cyan-700'>WheelZ</h1>
                 <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(submit)}>
-                    <TextInput method={register} required={true} icon={<HiMail/>} placeholder={'name@wheelz.com'} name={'email'}/>
+                    <TextInput method={register} required={true} icon={<HiMail/>} placeholder={'nombre@wheelz.com'} name={'email'}/>
 
                     <PassInput method={register} required={true} icon={<HiLockClosed/>} placeholder={'*******'} name={'pass'}/>
                     

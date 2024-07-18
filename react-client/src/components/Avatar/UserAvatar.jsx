@@ -15,7 +15,7 @@ export const UserAvatar = ({ user, clearUser }) => {
       <Dropdown.Header>
         <span className='block text-sm'>{user}</span>
       </Dropdown.Header>
-      <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
+      <Dropdown.Item onClick={signOut}>Cerrar Sesión</Dropdown.Item>
     </Dropdown>
   ) : <DefaultAvatar />
 }
