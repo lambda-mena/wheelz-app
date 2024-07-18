@@ -1,19 +1,20 @@
-import React from 'react';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Button } from 'flowbite-react';
 import { HiMail , HiLockClosed } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 import TextInput from '../styled-components/Inputs/TextInput';
 import PassInput from '../styled-components/Inputs/PassInput';
+import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
+    const { saveUserSession } = useAuth();
 
     const { register, handleSubmit } = useForm();
 
     const navigate = useNavigate();
 
     const submit = (data) =>{
-        console.log(data);
+        saveUserSession(data.email);
         navigate('/');
     }
 
