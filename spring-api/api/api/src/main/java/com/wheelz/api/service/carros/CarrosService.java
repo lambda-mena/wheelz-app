@@ -1,4 +1,4 @@
-package com.wheelz.api.service.usuario.service.carros;
+package com.wheelz.api.service.carros;
 
 import com.wheelz.api.dto.carro.CarrosResponseDTO;
 import com.wheelz.api.dto.carro.CarrosSavingRequestDTO;

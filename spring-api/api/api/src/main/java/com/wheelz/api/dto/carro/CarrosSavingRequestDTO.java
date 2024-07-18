@@ -27,10 +27,10 @@ public class CarrosSavingRequestDTO {
     @NotBlank(message = "La placa es obligatorio.")
     private String placa;
 
-    @NotBlank(message = "La categoría es obligatoria.")
+    @NotNull(message = "La categoría es obligatoria.")
     private Categoria categoria;
 
-    @NotBlank(message = "El tipo de transmisión es obligatorio.")
+    @NotNull(message = "El tipo de transmisión es obligatorio.")
     private TipoTransmision tipoTransmision;
 
     @NotBlank(message = "Las imágenes son obligatorias.")
