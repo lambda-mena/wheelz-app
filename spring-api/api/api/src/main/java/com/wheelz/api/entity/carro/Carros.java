@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "carro")
+@Table(name = "carros")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-
 public class Carros {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +44,9 @@ public class Carros {
     @Column(name = "disponibilidad")
     private Boolean disponibilidad;
 
+    @Column(name = "año")
+    private int año;
+
     @Column(name = "active")
-    private Boolean active;
+    private boolean active;
 }

@@ -1,6 +1,7 @@
 package com.wheelz.api.dto.reserva;
 
 import com.wheelz.api.entity.reserva.EstadoReserva;
+import com.wheelz.api.entity.reserva.TipoCobertura;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,14 +14,10 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservaResponse {
-    private Long id;
-    private Long idUsuario;
-    private Long idcarro;
+public class ReservaUpdateRequest {
     private Date fechaEntrega;
     private Date fechaDevolucion;
-    private Long idTipoCobertura;
+    private TipoCobertura idTipoCobertura;
     private EstadoReserva estadoReserva;
     private BigDecimal precioTotal;
-    private String qr;
 }

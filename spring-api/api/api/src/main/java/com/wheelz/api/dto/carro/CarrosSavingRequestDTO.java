@@ -1,5 +1,7 @@
 package com.wheelz.api.dto.carro;
 
+import com.wheelz.api.entity.carro.Categoria;
+import com.wheelz.api.entity.carro.TipoTransmision;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -7,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -23,19 +27,22 @@ public class CarrosSavingRequestDTO {
     @NotBlank(message = "La placa es obligatorio.")
     private String placa;
 
-    @NotBlank(message = "La categoría es obligatoria.")
-    private String categoria;
+    @NotNull(message = "La categoría es obligatoria.")
+    private Categoria categoria;
 
-    @NotBlank(message = "El tipo de transmisión es obligatorio.")
-    private String tipoTransmision;
+    @NotNull(message = "El tipo de transmisión es obligatorio.")
+    private TipoTransmision tipoTransmision;
 
     @NotBlank(message = "Las imágenes son obligatorias.")
     private String imagenes;
 
     @NotNull(message = "El precio por día es obligatorio.")
     @Positive(message = "El precio por día debe de ser un valor positivo.")
-    private Long precioDia;
+    private BigDecimal precioDia;
 
     @NotNull(message = "La disponibilidad es obligatoria.")
     private Boolean disponibilidad;
+
+    @NotNull(message = "El año es obligatoria.")
+    private int año;
 }
