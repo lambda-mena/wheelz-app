@@ -47,4 +47,7 @@ public class Carros {
 
     @Column(name = "active")
     private Boolean active;
+
+    @Column(name = "año")
+    private int año;
 }

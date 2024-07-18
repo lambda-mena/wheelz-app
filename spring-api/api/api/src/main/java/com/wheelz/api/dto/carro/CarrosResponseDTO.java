@@ -1,7 +1,8 @@
 package com.wheelz.api.dto.carro;
 
-import com.wheelz.api.entity.carro.Carros;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 
 @Data
@@ -16,7 +17,7 @@ public class CarrosResponseDTO {
     private String categoria;
     private String tipoTransmision;
     private String imagenes;
-    private Long precioDia;
+    private BigDecimal precioDia;
     private Boolean disponibilidad;
 
 }
