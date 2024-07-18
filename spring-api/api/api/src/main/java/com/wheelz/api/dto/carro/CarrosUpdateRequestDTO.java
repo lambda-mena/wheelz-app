@@ -21,15 +21,6 @@ public class CarrosUpdateRequestDTO {
 
     private Boolean disponibilidad;
 
-    public String getModelo() {
-        return "modelo";
-    }
+    private Boolean activo;
 
-    public String getMarca() {
-        return "marca";
     }
-
-    public String getAño() {
-        return "año";
-    }
-}

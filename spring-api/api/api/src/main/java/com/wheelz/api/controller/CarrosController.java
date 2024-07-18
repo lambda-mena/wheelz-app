@@ -3,7 +3,7 @@ package com.wheelz.api.controller;
 import com.wheelz.api.dto.carro.CarrosResponseDTO;
 import com.wheelz.api.dto.carro.CarrosSavingRequestDTO;
 import com.wheelz.api.dto.carro.CarrosUpdateRequestDTO;
-import com.wheelz.api.service.usuario.service.carros.CarrosService;
+import com.wheelz.api.service.carros.CarrosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
