@@ -3,7 +3,6 @@ import {useForm} from 'react-hook-form';
 import { Button } from 'flowbite-react';
 import { HiMail , HiLockClosed } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
-import Input from '../styled-components/Input';
 import TextInput from '../styled-components/Inputs/TextInput';
 import PassInput from '../styled-components/Inputs/PassInput';
 
