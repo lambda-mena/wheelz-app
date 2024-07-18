@@ -1,109 +1,95 @@
 import React from 'react';
 import { Modal, Button, Label } from "flowbite-react";
 import { useForm } from 'react-hook-form';
-import { HiMail , HiOutlineUser , HiPhone , HiLibrary} from "react-icons/hi";
+import { HiMail, HiOutlineUser, HiOutlineIdentification } from "react-icons/hi";
 import TextInput from '../../styled-components/Inputs/TextInput';
 import SelectInput from '../../styled-components/Inputs/SelectInput';
 
-
 const AddEditModal = ({ isOpen, onClose, onSave, data, onChange, mode }) => {
+    const { register, handleSubmit } = useForm({
+        defaultValues: data,
+    });
 
-    const { register, handleSubmit } = useForm();
+    const userType = ['Cliente', 'Administrador'];
+    const status = ['Activo', 'Inactivo'];
 
-    const cities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Cúcuta', 'Bucaramanga', 'Pereira', 'Santa Marta', 'Ibagué'];
-    const userType = ['Admin','User'];
-    const status = ['Active','Inactive'];
-
-    const submit = (data)=>{
-        console.log(data);
-    }
+    const submit = (formData) => {
+        onSave(formData);
+    };
 
     return (
         <Modal show={isOpen} onClose={onClose}>
-            
-            <Modal.Header>{mode === 'add' ? 'Add User' : 'Edit User'}</Modal.Header>
+            <Modal.Header>{mode === 'add' ? 'Agregar Usuario' : 'Editar Usuario'}</Modal.Header>
             <Modal.Body>
-            <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(submit)}>
-                <div className="space-y-6">
-                    <div>
-                        <Label htmlFor="name" value="Name" />
-                        <TextInput
-                            icon={<HiOutlineUser/>}
-                            method={register}
-                            name="name"
-                            placeholder="Name" 
-                            required={true}
-                        />
+                <form className="max-w-md mx-auto flex flex-col gap-4" onSubmit={handleSubmit(submit)}>
+                    <div className="space-y-6">
+                        <div>
+                            <Label htmlFor="name" value="Nombre" />
+                            <TextInput
+                                icon={<HiOutlineUser />}
+                                method={register}
+                                name="name"
+                                placeholder="Nombre"
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="apellido" value="Apellido" />
+                            <TextInput
+                                icon={<HiOutlineUser />}
+                                method={register}
+                                name="apellido"
+                                placeholder="Apellido"
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="email" value="Correo Electrónico" />
+                            <TextInput
+                                icon={<HiMail />}
+                                method={register}
+                                name="email"
+                                placeholder="Correo Electrónico"
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="document" value="Documento" />
+                            <TextInput
+                                icon={<HiOutlineIdentification />}
+                                method={register}
+                                name="document"
+                                placeholder="Documento"
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="userType" value="Tipo de Usuario" />
+                            <SelectInput
+                                method={register}
+                                name="userType"
+                                required={true}
+                                values={userType}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="status" value="Estado" />
+                            <SelectInput
+                                method={register}
+                                name="status"
+                                required={true}
+                                values={status}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <Label htmlFor="email" value="Email" />
-                        <TextInput
-                            icon={<HiMail/>}
-                            method={register}
-                            name="email"
-                            placeholder="Email"
-                            required={true}
-                        />
+                    <div className="flex justify-center mt-4">
+                        <Button type='submit' className="mr-2">{mode === 'add' ? 'Agregar Usuario' : 'Actualizar Usuario'}</Button>
+                        <Button color="gray" onClick={onClose}>
+                            Cancelar
+                        </Button>
                     </div>
-                    <div>
-                        <Label htmlFor="phone" value="Phone" />
-                        <TextInput
-                            icon={<HiPhone/>}
-                            method={register}
-                            name="phone"
-                            placeholder="Phone"
-                            required={true}
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="city" value="City" />
-                        <SelectInput
-                            method={register}
-                            name="city"
-                            required={true}
-                            values={cities}
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="address" value="Address" />
-                        <TextInput
-                            icon={<HiLibrary/>}
-                            method={register}
-                            name="address"
-                            placeholder="Address"
-                            required={true}
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="userType" value="User Type" />
-                        <SelectInput
-                            method={register}
-                            name="userType"
-                            required={true}
-                            values={userType}
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="status" value="Status" />
-                        <SelectInput
-                            method={register}
-                            name="status"
-                            required={true}
-                            values={status}
-                        />
-                    </div>
-                </div>
-                <Button type='submit'>{mode === 'add' ? 'Add User' : 'Update User'}</Button>
-                <Button color="gray" onClick={onClose}>
-                    Cancel
-                </Button>
                 </form>
             </Modal.Body>
-            <Modal.Footer>
-                
-                
-            </Modal.Footer>
-            
         </Modal>
     );
 };

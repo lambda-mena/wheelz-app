@@ -9,13 +9,14 @@ import AlertComponent from '../components/Alert/AlertComponent';
 import PaginationComponent from '../components/Pagination/PaginationComponent';
 
 const UserPage = () => {
-    // Datos de ejemplo de usuarios
+    // Datos de ejemplo de usuarios sin el campo city
     let users = [
-        { id: 1, name: 'John Doe', email: 'john.doe@example.com', phone: '123-456-7890', city: 'Bogotá', address: '123 Street', userType: 'Client', status: 'Active' },
-        { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', phone: '987-654-3210', city: 'Medellín', address: '456 Avenue', userType: 'Admin', status: 'Inactive' },
-        { id: 3, name: 'Alice Johnson', email: 'alice.johnson@example.com', phone: '555-123-4567', city: 'Cali', address: '789 Boulevard', userType: 'Client', status: 'Active' },
-        { id: 4, name: 'Bob Brown', email: 'bob.brown@example.com', phone: '555-987-6543', city: 'Barranquilla', address: '101 Plaza', userType: 'Admin', status: 'Inactive' },
-        { id: 5, name: 'Charlie Davis', email: 'charlie.davis@example.com', phone: '555-555-5555', city: 'Cartagena', address: '202 Lane', userType: 'Client', status: 'Active' }
+        { id: 1, name: 'John Doe', apellido: 'Doe', email: 'john.doe@example.com', document: '123456789', userType: 'Client', status: 'Activo' },
+        { id: 2, name: 'Jane Smith', apellido: 'Smith', email: 'jane.smith@example.com', document: '987654321', userType: 'Admin', status: 'Inactivo' },
+        { id: 3, name: 'Alice Johnson', apellido: 'Johnson', email: 'alice.johnson@example.com', document: '5551234567', userType: 'Client', status: 'Activo' },
+        { id: 4, name: 'Bob Brown', apellido: 'Brown', email: 'bob.brown@example.com', document: '5559876543', userType: 'Admin', status: 'Activo' },
+        { id: 5, name: 'Charlie Davis', apellido: 'Davis', email: 'charlie.davis@example.com', document: '5555555555', userType: 'Client', status: 'Activo' },
+        { id: 6, name: 'Davis', apellido: 'Lopez', email: 'charlie.davis@example.com', document: '5555555555', userType: 'Client', status: 'Activo' }
     ];
 
     // Estados para manejar los datos y la interfaz
@@ -58,7 +59,7 @@ const UserPage = () => {
 
     // Maneja el clic en el botón de agregar
     const handleAddClick = useCallback(() => {
-        setSelectedUser({ id: '', name: '', email: '', phone: '', city: '', address: '', userType: 'Client', status: 'Active' });
+        setSelectedUser({ id: '', name: '', apellido: '', email: '', document: '', userType: 'Client', status: 'Active' });
         setMode('add');
         setIsAddEditModalOpen(true);
     }, []);
@@ -79,7 +80,7 @@ const UserPage = () => {
     // Confirma la eliminación del usuario seleccionado
     const handleDeleteConfirm = async () => {
         setData(data.filter((user) => user.id !== selectedUser.id)); // Filtra el usuario eliminado
-        setAlert({ show: true, message: 'User deleted successfully!', type: 'success' }); // Muestra alerta de éxito
+        setAlert({ show: true, message: '¡Usuario eliminado exitosamente!', type: 'success' }); // Muestra alerta de éxito
         setIsDeleteModalOpen(false); // Cierra el modal de eliminación
         setSelectedUser(null);
     };
@@ -92,7 +93,7 @@ const UserPage = () => {
         } else {
             setData(data.map((user) => (user.id === selectedUser.id ? selectedUser : user))); // Actualiza el usuario
         }
-        setAlert({ show: true, message: `User ${mode === 'add' ? 'added' : 'updated'} successfully!`, type: 'success' }); // Muestra alerta de éxito
+        setAlert({ show: true, message: `Usuario ${mode === 'add' ? 'agregado' : 'actualizado'} exitosamente!`, type: 'success' }); // Muestra alerta de éxito
         setIsAddEditModalOpen(false); // Cierra el modal de agregar/editar
         setSelectedUser(null);
     };
@@ -108,7 +109,7 @@ const UserPage = () => {
     const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage); // Obtiene los datos paginados
 
     return (
-        <div className="p-4 md:p-8">
+        <div className="max-w-[90vw] mx-auto flex flex-col">
             {alert.show && (
                 <AlertComponent
                     type={alert.type === 'success' ? 'success' : 'failure'}
@@ -116,16 +117,23 @@ const UserPage = () => {
                     onClose={() => setAlert({ ...alert, show: false })}
                 />
             )}
-            <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} onAddClick={handleAddClick} />
-            <TableComponent data={paginatedData} onEdit={handleEditClick} onDelete={handleDeleteClick} />
-            <PaginationComponent currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+            <h1 className="text-3xl my-4">Gestión de Usuarios</h1>
+            <div className="mb-4">
+                <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} onAddClick={handleAddClick} />
+            </div>
+            <div className="overflow-x-auto mb-4">
+                <TableComponent data={paginatedData} onEdit={handleEditClick} onDelete={handleDeleteClick} />
+            </div>
+            <div className="mb-4">
+                <PaginationComponent currentPage={currentPage} totalPages={totalPages} totalUsers={data.length} onPageChange={handlePageChange} />
+            </div>
             {isDeleteModalOpen && (
                 <DeleteModal
                     isOpen={isDeleteModalOpen}
                     onClose={() => setIsDeleteModalOpen(false)}
                     onDelete={handleDeleteConfirm}
                     userName={selectedUser?.name}
-                /> 
+                />
             )}
             {isAddEditModalOpen && (
                 <AddEditModal
@@ -139,6 +147,6 @@ const UserPage = () => {
             )}
         </div>
     );
-};
+}
 
 export default UserPage;

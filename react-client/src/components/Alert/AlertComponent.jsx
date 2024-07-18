@@ -5,15 +5,17 @@ const AlertComponent = ({ type, message, onClose }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-        }, 1600); // Ajusta el tiempo según tus necesidades, aquí son 3000 ms = 3 segundos
+        }, 1600); // Ajusta el tiempo según tus necesidades, aquí son 1600 ms = 1.6 segundos
 
         return () => clearTimeout(timer);
     }, [onClose]);
 
     return (
-        <Alert color={type} className="mb-4">
-            {message}
-        </Alert>
+        <div className="flex justify-center">
+            <Alert color={type} className="mb-4 max-w-[90vw] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+                {message}
+            </Alert>
+        </div>
     );
 };
 
