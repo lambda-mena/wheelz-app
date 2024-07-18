@@ -62,7 +62,6 @@ public class UsuarioController {
         } catch (IllegalArgumentException e) {
             String errorMessage = e.getMessage();
             if (errorMessage.contains("Tipo de usuario invalido")) {
-                // Construir un mensaje más específico
                 String acceptedValues = Arrays.stream(TipoUsuario.values())
                         .map(Enum::name)
                         .collect(Collectors.joining(", "));

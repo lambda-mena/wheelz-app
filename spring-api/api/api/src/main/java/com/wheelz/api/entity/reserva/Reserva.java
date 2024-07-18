@@ -29,7 +29,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "id_carro", referencedColumnName = "id")
-    private Carros Carro;
+    private Carros carro;
 
     @Column(name = "fecha_entrega")
     private Date fechaEntrega;
@@ -39,11 +39,14 @@ public class Reserva {
 
     @OneToOne
     @JoinColumn(name = "id_tipo_cobertura", referencedColumnName = "id")
-    private TipoCobertura idTipoCobertura;
+    private TipoCobertura tipoCobertura;
 
     @Enumerated(EnumType.STRING)
     private EstadoReserva estadoReserva;
 
     @Column(name = "precio_total")
     private BigDecimal precioTotal;
+
+    @Column(name = "qr")
+    private String qr;
 }

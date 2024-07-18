@@ -37,11 +37,16 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponse> findByAll() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarioRepository.findAll().stream()
                 .map(usuarioMapper::toUsuarioResponse).toList();
     }
-
+    public Usuario getUsuarioById(Long id) {
+        if (id == null || id == 0) {
+            throw new RequestException("Id invalido!!!");
+        }
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RequestException("Usuario no encontrado.!"));
+    }
     public UsuarioResponse findByUsuarioId(Long id) {
         if (id == null|| id == 0){
             throw new RequestException("Id invalido!!!");
