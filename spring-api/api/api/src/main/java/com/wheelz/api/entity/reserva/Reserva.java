@@ -39,11 +39,14 @@ public class Reserva {
 
     @OneToOne
     @JoinColumn(name = "id_tipo_cobertura", referencedColumnName = "id")
-    private TipoCobertura idTipoCobertura;
+    private TipoCobertura tipoCobertura;
 
     @Enumerated(EnumType.STRING)
     private EstadoReserva estadoReserva;
 
     @Column(name = "precio_total")
     private BigDecimal precioTotal;
+
+    @Column(name = "qr")
+    private String qr;
 }
