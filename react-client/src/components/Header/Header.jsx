@@ -1,9 +1,10 @@
 import { Navbar } from 'flowbite-react'
 import { useAuth } from '../../hooks/useAuth'
 import { UserAvatar } from '../Avatar/UserAvatar'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export const Header = () => {
+  const location = useLocation().pathname;
   const { user, saveUserSession } = useAuth();
 
   return (
@@ -16,10 +17,9 @@ export const Header = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link as={Link} to='/' active>Panel Administrativo</Navbar.Link>
-        <Navbar.Link as={Link} to='/vehiculos'>Vehiculos</Navbar.Link>
-        <Navbar.Link as={Link} to='/reservas'>Reservas</Navbar.Link>
-        <Navbar.Link as={Link} to='/usuarios'>Usuarios</Navbar.Link>
+        <Navbar.Link as={Link} to='/vehiculos' active={location.includes('/vehiculos')}>Vehiculos</Navbar.Link>
+        <Navbar.Link as={Link} to='/reservas' active={location.includes('/reservas')}>Reservas</Navbar.Link>
+        <Navbar.Link as={Link} to='/usuarios' active={location.includes('/usuarios')}>Usuarios</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   )
