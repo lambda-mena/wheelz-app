@@ -1,10 +1,7 @@
 import { Button, Table as FlowbiteTable } from "flowbite-react";
 import { HiOutlinePencilAlt, HiTrash } from "react-icons/hi";
 
-export const Table = ({ fields, data }) => {
-  const onEdit = () => {};
-  const onDelete = () => {};
-
+export const Table = ({ fields, data, onEdit, onDelete }) => {
   return (
     <div className="overflow-x-auto">
       <FlowbiteTable className="max-h-1/2" striped>

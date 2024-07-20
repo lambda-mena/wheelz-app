@@ -31,6 +31,14 @@ export default function VehiclePage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, term]);
 
+  const onEdit = (arg) => {
+    console.log(arg);
+  }
+
+  const onDelete = (arg) => {
+    console.log(arg);
+  }
+
   return (
     <div className="max-w-[90vw] mx-auto flex flex-col">
       <h1 className="text-3xl my-4">Gestión de Vehiculos</h1>
@@ -38,7 +46,7 @@ export default function VehiclePage() {
         <Search term="placa" addLabel="Agregar Vehiculo" onSearchChange={setTerm} />
       </div>
       <div className="overflow-x-auto mb-4">
-        <Table fields={vehicleFields} data={entities} />
+        <Table fields={vehicleFields} data={entities} onEdit={onEdit} onDelete={onDelete} />
       </div>
       <div className="mb-4">
         <Pagination
