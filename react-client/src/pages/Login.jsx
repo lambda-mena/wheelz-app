@@ -5,10 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import TextInput from '../styled-components/Inputs/TextInput';
 import PassInput from '../styled-components/Inputs/PassInput';
 import { useAuth } from '../hooks/useAuth';
-import { getUser , postLoginUser } from '../interceptors/UsuarioAPIConexion';
-import { useEffect,useState } from 'react';
+import { postLoginUser } from '../interceptors/UsuarioAPIConexion';
+import { useState } from 'react';
+import AlertComponent from '../components/Alert/AlertComponent';
 
 const Login = () => {
+
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
     const { saveUserSession } = useAuth();
 
     const { register, handleSubmit } = useForm();
@@ -16,25 +20,29 @@ const Login = () => {
     const navigate = useNavigate();
 
     const submit = (data) =>{
-        // postLoginUser(data).then(res=>{
-        //     console.log(res);
-        // })
-        //console.log(data);
-        saveUserSession(data.email);
-        navigate('/');
+        postLoginUser(data).then(res=>{
+           
+            if(res){
+                saveUserSession(data.email);
+                navigate('/');
+            }else{
+                
+                setAlert({ show: true, message: `Usuario o contraseña incorrecta!`, type: 'failure' });
+            }
+        })
     }
-
-    // useEffect(()=>{
-    //     getUser('1').then(res=>{
-    //         console.log(res);
-    //     })
-    // },[])
-
 
     return (
         <>
             <div className='flex-1 mx-auto content-center'>
                 <h1 className='block text-5xl font-bold text-center mb-9 text-cyan-700'>WheelZ</h1>
+                {alert.show && (
+                <AlertComponent
+                    type={alert.type === 'success' ? 'success' : 'failure'}
+                    message={alert.message}
+                    onClose={() => setAlert({ ...alert, show: false })}
+                />
+            )}
                 <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(submit)}>
                     <TextInput method={register} required={true} icon={<HiMail/>} placeholder={'nombre@wheelz.com'} name={'email'}/>
 
