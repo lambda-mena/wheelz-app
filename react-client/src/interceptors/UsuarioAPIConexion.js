@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 export const getUser = (data)=>{
-    
-    const id = data.id;
 
-    axios.get(`http://charming-amazement-production.up.railway.app/api/usuario/${id}`).then(response => {
+    axios.get(`https://charming-amazement-production.up.railway.app/api/usuario/${data}`).then(response => {
         console.log(response.data);
     }).catch(error => {
         console.error('Error fetching data:', error);
@@ -35,8 +33,14 @@ export const patchUser = (data)=>{
 
 }
 
-export const postUser = (data)=>{
-    axios.post(`http://charming-amazement-production.up.railway.app/api/usuario`, data).then(response => {
+export const postUser = (data)=>{    
+    
+    const request = {
+        "email": data.email,
+        "contraseña": data.pass
+    }
+
+    axios.post(`http://charming-amazement-production.up.railway.app/api/usuario`, request).then(response => {
         console.log(response.data);
       }).catch(error => {
         console.error('Error posting data:', error);

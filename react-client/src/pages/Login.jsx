@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import TextInput from '../styled-components/Inputs/TextInput';
 import PassInput from '../styled-components/Inputs/PassInput';
 import { useAuth } from '../hooks/useAuth';
+import { getUser , postLoginUser } from '../interceptors/UsuarioAPIConexion';
+import { useEffect,useState } from 'react';
 
 const Login = () => {
     const { saveUserSession } = useAuth();
@@ -14,9 +16,20 @@ const Login = () => {
     const navigate = useNavigate();
 
     const submit = (data) =>{
+        // postLoginUser(data).then(res=>{
+        //     console.log(res);
+        // })
+        //console.log(data);
         saveUserSession(data.email);
         navigate('/');
     }
+
+    // useEffect(()=>{
+    //     getUser('1').then(res=>{
+    //         console.log(res);
+    //     })
+    // },[])
+
 
     return (
         <>
