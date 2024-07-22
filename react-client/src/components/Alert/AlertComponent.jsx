@@ -5,7 +5,7 @@ const AlertComponent = ({ type, message, onClose }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-        }, 1600); // Ajusta el tiempo según tus necesidades, aquí son 1600 ms = 1.6 segundos
+        }, 6000); // Ajusta el tiempo según tus necesidades, aquí son 1600 ms = 1.6 segundos
 
         return () => clearTimeout(timer);
     }, [onClose]);

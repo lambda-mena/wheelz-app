@@ -1,17 +1,17 @@
 import React from 'react';
 import { Table, Button, Badge } from "flowbite-react";
-import { HiTrash, HiOutlinePencilAlt } from "react-icons/hi";
+import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 
-const TableComponent = ({ data, onEdit, onDelete }) => {
+const TableComponent = ({ data, onEdit, onDeactivate }) => {
     return (
         <div className="overflow-x-auto">
             <Table striped responsive>
                 <Table.Head>
                     <Table.HeadCell className="bg-gray-200">ID</Table.HeadCell>
-                    <Table.HeadCell className="bg-gray-200">Nombre</Table.HeadCell>
-                    <Table.HeadCell className="bg-gray-200">Apellido</Table.HeadCell>
-                    <Table.HeadCell className="bg-gray-200">Email</Table.HeadCell>
-                    <Table.HeadCell className="bg-gray-200">Documento</Table.HeadCell>
+                    <Table.HeadCell className="bg-gray-200">NOMBRE</Table.HeadCell>
+                    <Table.HeadCell className="bg-gray-200">APELLIDO</Table.HeadCell>
+                    <Table.HeadCell className="bg-gray-200">CORREO ELECTRÓNICO</Table.HeadCell>
+                    <Table.HeadCell className="bg-gray-200">DOCUMENTO</Table.HeadCell>
                     <Table.HeadCell className="bg-gray-200">TIPO DE USUARIO</Table.HeadCell>
                     <Table.HeadCell className="bg-gray-200">ESTADO</Table.HeadCell>
                     <Table.HeadCell className="bg-gray-200 text-center">Acción</Table.HeadCell>
@@ -33,9 +33,9 @@ const TableComponent = ({ data, onEdit, onDelete }) => {
                                     <HiOutlinePencilAlt className="h-5 w-5 mr-1" />
                                     <span className='flex items-center'>Editar</span>
                                 </Button>
-                                <Button size="xs" color="failure" onClick={() => onDelete(item)} className="border-0 hover:shadow-md flex items-center">
-                                    <HiTrash className="h-5 w-5 mr-1" />
-                                    <span className='flex items-center'>Borrar</span>
+                                <Button size="xs" color="failure" onClick={() => onDeactivate(item)} className="border-0 hover:shadow-md flex items-center">
+                                    <HiOutlineTrash className="h-5 w-5 mr-1" />
+                                    <span className='flex items-center'>Dar de Baja</span>
                                 </Button>
                             </Table.Cell>
                         </Table.Row>

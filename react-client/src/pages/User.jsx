@@ -1,152 +1,192 @@
-"use client";
-
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import TableComponent from '../components/Table/TableComponent';
 import SearchBar from '../components/Search/SearchBar';
-import AddEditModal from '../components/Modal/AddEditModal';
-import DeleteModal from '../components/Modal/DeleteModal';
+import DeactivateModal from '../components/Modal/DeactivateModal';
+import AddUserModal from '../components/Modal/AddUserModal';
+import EditUserModal from '../components/Modal/EditUserModal';
 import AlertComponent from '../components/Alert/AlertComponent';
 import PaginationComponent from '../components/Pagination/PaginationComponent';
+import { fetchUsers, deactivateUser, addUser, updateUser } from '../api/api';
 
 const UserPage = () => {
-    // Datos de ejemplo de usuarios sin el campo city
-    let users = [
-        { id: 1, name: 'John Doe', apellido: 'Doe', email: 'john.doe@example.com', document: '123456789', userType: 'Client', status: 'Activo' },
-        { id: 2, name: 'Jane Smith', apellido: 'Smith', email: 'jane.smith@example.com', document: '987654321', userType: 'Admin', status: 'Inactivo' },
-        { id: 3, name: 'Alice Johnson', apellido: 'Johnson', email: 'alice.johnson@example.com', document: '5551234567', userType: 'Client', status: 'Activo' },
-        { id: 4, name: 'Bob Brown', apellido: 'Brown', email: 'bob.brown@example.com', document: '5559876543', userType: 'Admin', status: 'Activo' },
-        { id: 5, name: 'Charlie Davis', apellido: 'Davis', email: 'charlie.davis@example.com', document: '5555555555', userType: 'Client', status: 'Activo' },
-        { id: 6, name: 'Davis', apellido: 'Lopez', email: 'charlie.davis@example.com', document: '5555555555', userType: 'Client', status: 'Activo' }
-    ];
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isDeactivateModalOpen, setIsDeactivateModalOpen] = useState(false);
+    const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+    const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
-    // Estados para manejar los datos y la interfaz
-    const [data, setData] = useState(users); // Lista de usuarios
-    const [filteredData, setFilteredData] = useState(users); // Lista de usuarios filtrada
-    const [searchTerm, setSearchTerm] = useState(''); // Término de búsqueda
-    const [currentPage, setCurrentPage] = useState(1); // Página actual
-    const [totalPages, setTotalPages] = useState(1); // Número total de páginas
-    const [selectedUser, setSelectedUser] = useState(null); // Usuario seleccionado
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado del modal de eliminación
-    const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false); // Estado del modal de agregar/editar
-    const [mode, setMode] = useState('add'); // Modo del modal (agregar o editar)
-    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // Estado de la alerta
+    const itemsPerPage = 3;
 
-    const itemsPerPage = 3; // Número de elementos por página
+    const loadUsers = async () => {
+        try {
+            const users = await fetchUsers();
+            setData(users);
+            setFilteredData(users);
+            setTotalPages(Math.ceil(users.length / itemsPerPage));
+        } catch (err) {
+            setAlert({ show: true, message: err.message, type: 'failure' });
+        }
+    };
 
-    // Al cargar el componente, actualizamos el total de páginas
     useEffect(() => {
-        setTotalPages(Math.ceil(users.length / itemsPerPage));
+        loadUsers();
     }, []);
 
-    // Función para filtrar usuarios según el término de búsqueda
-    const handleSearch = useCallback(() => {
-        const filtered = data.filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    useEffect(() => {
+        const filtered = data.filter(user =>
+            (user.nombre || '').toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredData(filtered); // Actualiza la lista filtrada
-        setTotalPages(Math.ceil(filtered.length / itemsPerPage)); // Actualiza el total de páginas
+        setFilteredData(filtered);
+        setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+        setCurrentPage(1);
     }, [searchTerm, data]);
 
-    // Efecto para manejar cambios en el término de búsqueda
-    useEffect(() => {
-        handleSearch();
-    }, [searchTerm, data, currentPage, handleSearch]);
-
-    // Cambia la página actual
-    const handlePageChange = useCallback((page) => {
+    const handlePageChange = (page) => {
         setCurrentPage(page);
-    }, []);
-
-    // Maneja el clic en el botón de agregar
-    const handleAddClick = useCallback(() => {
-        setSelectedUser({ id: '', name: '', apellido: '', email: '', document: '', userType: 'Client', status: 'Active' });
-        setMode('add');
-        setIsAddEditModalOpen(true);
-    }, []);
-
-    // Maneja el clic en el botón de editar
-    const handleEditClick = useCallback((user) => {
-        setSelectedUser(user);
-        setMode('edit');
-        setIsAddEditModalOpen(true);
-    }, []);
-
-    // Maneja el clic en el botón de eliminar
-    const handleDeleteClick = useCallback((user) => {
-        setSelectedUser(user);
-        setIsDeleteModalOpen(true);
-    }, []);
-
-    // Confirma la eliminación del usuario seleccionado
-    const handleDeleteConfirm = async () => {
-        setData(data.filter((user) => user.id !== selectedUser.id)); // Filtra el usuario eliminado
-        setAlert({ show: true, message: '¡Usuario eliminado exitosamente!', type: 'success' }); // Muestra alerta de éxito
-        setIsDeleteModalOpen(false); // Cierra el modal de eliminación
-        setSelectedUser(null);
     };
 
-    // Guarda el usuario (agrega o actualiza según el modo)
-    const handleSaveUser = async () => {
-        if (mode === 'add') {
-            const newUser = { ...selectedUser, id: data.length + 1 }; // Genera un nuevo ID
-            setData([...data, newUser]); // Agrega el nuevo usuario
-        } else {
-            setData(data.map((user) => (user.id === selectedUser.id ? selectedUser : user))); // Actualiza el usuario
+    const handleDeactivateClick = (user) => {
+        if (user && user.id) {
+            setSelectedUser(user);
+            setIsDeactivateModalOpen(true);
         }
-        setAlert({ show: true, message: `Usuario ${mode === 'add' ? 'agregado' : 'actualizado'} exitosamente!`, type: 'success' }); // Muestra alerta de éxito
-        setIsAddEditModalOpen(false); // Cierra el modal de agregar/editar
-        setSelectedUser(null);
     };
 
-    // Maneja el cambio en los campos de entrada del modal
-    const handleInputChange = useCallback((e) => {
-        const { name, value } = e.target;
-        setSelectedUser((prevUser) => ({ ...prevUser, [name]: value })); // Actualiza el usuario seleccionado
-    }, []);
+    const handleDeactivateConfirm = async () => {
+        if (!selectedUser?.id) {
+            setAlert({ show: true, message: 'No se ha seleccionado ningún usuario para desactivar.', type: 'failure' });
+            return;
+        }
+        try {
+            await deactivateUser(selectedUser.id);
+            // Actualiza el estado con los datos del usuario desactivado
+            const updatedData = data.map(user =>
+                user.id === selectedUser.id ? { ...user, status: 'Inactivo' } : user
+            );
+            setData(updatedData);
+            setFilteredData(updatedData);
+            setTotalPages(Math.ceil(updatedData.length / itemsPerPage));
+            setAlert({ show: true, message: '¡Usuario desactivado exitosamente!', type: 'success' });
+        } catch (err) {
+            setAlert({ show: true, message: err.message, type: 'failure' });
+        } finally {
+            setIsDeactivateModalOpen(false);
+            setSelectedUser(null);
+        }
+    };
 
-    // Calcula el índice de inicio para la paginación
+    const handleAddClick = () => {
+        setIsAddUserModalOpen(true);
+    };
+
+    const handleSaveUser = async (newUser) => {
+        try {
+            await addUser(newUser);
+            setAlert({ show: true, message: '¡Usuario agregado exitosamente!', type: 'success' });
+            await loadUsers();
+        } catch (error) {
+            setAlert({ show: true, message: error.message, type: 'failure' });
+        } finally {
+            setIsAddUserModalOpen(false);
+        }
+    };
+
+    const handleEditClick = (user) => {
+        if (user && user.id) {
+            setSelectedUser(user);
+            setIsEditUserModalOpen(true);
+        }
+    };
+
+    const handleUpdateUser = async (updatedData) => {
+        console.log('Datos a actualizar:', updatedData);
+        if (!updatedData || !updatedData.id) {
+            setAlert({ show: true, message: 'ID de usuario no proporcionado.', type: 'failure' });
+            return;
+        }
+        
+        try {
+            await updateUser(updatedData.id, updatedData);
+            const updatedUserList = data.map(user =>
+                user.id === updatedData.id ? { ...user, ...updatedData } : user
+            );
+            setData(updatedUserList);
+            setFilteredData(updatedUserList);
+            setTotalPages(Math.ceil(updatedUserList.length / itemsPerPage));
+            setAlert({ show: true, message: '¡Usuario actualizado exitosamente!', type: 'success' });
+        } catch (error) {
+            setAlert({ show: true, message: error.message, type: 'failure' });
+        } finally {
+            setIsEditUserModalOpen(false);
+        }
+    };
+    
+
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage); // Obtiene los datos paginados
+    const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
     return (
         <div className="max-w-[90vw] mx-auto flex flex-col">
             {alert.show && (
                 <AlertComponent
-                    type={alert.type === 'success' ? 'success' : 'failure'}
+                    type={alert.type}
                     message={alert.message}
-                    onClose={() => setAlert({ ...alert, show: false })}
+                    onClose={() => setAlert(prevAlert => ({ ...prevAlert, show: false }))}
                 />
             )}
             <h1 className="text-3xl my-4">Gestión de Usuarios</h1>
             <div className="mb-4">
-                <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} onAddClick={handleAddClick} />
+                <SearchBar
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    onAddClick={handleAddClick}
+                />
             </div>
             <div className="overflow-x-auto mb-4">
-                <TableComponent data={paginatedData} onEdit={handleEditClick} onDelete={handleDeleteClick} />
+                <TableComponent 
+                    data={paginatedData} 
+                    onDeactivate={handleDeactivateClick}
+                    onEdit={handleEditClick}
+                />
             </div>
             <div className="mb-4">
-                <PaginationComponent currentPage={currentPage} totalPages={totalPages} totalUsers={data.length} onPageChange={handlePageChange} />
+                <PaginationComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    totalUsers={filteredData.length}
+                    onPageChange={handlePageChange}
+                />
             </div>
-            {isDeleteModalOpen && (
-                <DeleteModal
-                    isOpen={isDeleteModalOpen}
-                    onClose={() => setIsDeleteModalOpen(false)}
-                    onDelete={handleDeleteConfirm}
-                    userName={selectedUser?.name}
+            {isDeactivateModalOpen && (
+                <DeactivateModal
+                    isOpen={isDeactivateModalOpen}
+                    onClose={() => setIsDeactivateModalOpen(false)}
+                    onDeactivate={handleDeactivateConfirm}
+                    userName={selectedUser?.nombre}
                 />
             )}
-            {isAddEditModalOpen && (
-                <AddEditModal
-                    isOpen={isAddEditModalOpen}
-                    onClose={() => setIsAddEditModalOpen(false)}
+            {isAddUserModalOpen && (
+                <AddUserModal
+                    isOpen={isAddUserModalOpen}
+                    onClose={() => setIsAddUserModalOpen(false)}
                     onSave={handleSaveUser}
-                    data={selectedUser}
-                    onChange={handleInputChange}
-                    mode={mode}
+                />
+            )}
+            {isEditUserModalOpen && (
+                <EditUserModal
+                    isOpen={isEditUserModalOpen}
+                    onClose={() => setIsEditUserModalOpen(false)}
+                    onSave={handleUpdateUser}
+                    userId={selectedUser?.id}
                 />
             )}
         </div>
     );
-}
+};
 
 export default UserPage;
