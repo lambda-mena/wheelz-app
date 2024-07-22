@@ -52,14 +52,14 @@ const EditUserModal = ({ isOpen, onClose, userId, onSave }) => {
     const submit = async (data) => {
         try {
             if (data.id) { // Verifica que data.id esté definido
-                await updateUser(data.id, {
+                const updateResult = await updateUser(data.id, {
                     nombre: data.nombre,
                     apellido: data.apellido,
                     email: data.email,
                     ...(data.contraseña && { contraseña: data.contraseña }), // Solo incluir la contraseña si está presente
                     documento: data.documento
                 });
-                onSave();
+                onSave(updateResult.data);
                 onClose();
             } else {
                 console.error('ID del usuario no encontrado en los datos del formulario.');

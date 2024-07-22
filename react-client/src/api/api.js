@@ -76,7 +76,7 @@ export const updateUser = async (userId, updatedData) => {
         if (response.status !== 200) {
             throw new Error('Error inesperado al actualizar el usuario.');
         }
-        return 'Usuario actualizado exitosamente'; // Mensaje de éxito
+        return response; // Mensaje de éxito
     } catch (err) {
         console.error('Error en updateUser:', err.response ? err.response.data : err.message);
         throw new Error(err.response?.data?.message || 'Error inesperado al actualizar el usuario.');

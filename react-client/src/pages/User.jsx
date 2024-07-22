@@ -104,14 +104,7 @@ const UserPage = () => {
     };
 
     const handleUpdateUser = async (updatedData) => {
-        console.log('Datos a actualizar:', updatedData);
-        if (!updatedData || !updatedData.id) {
-            setAlert({ show: true, message: 'ID de usuario no proporcionado.', type: 'failure' });
-            return;
-        }
-        
         try {
-            await updateUser(updatedData.id, updatedData);
             const updatedUserList = data.map(user =>
                 user.id === updatedData.id ? { ...user, ...updatedData } : user
             );
