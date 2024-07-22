@@ -48,10 +48,6 @@ export const postLoginUser = (data)=>{
 
 }
 
-export const getAllUsers = ()=>{
-
-    return axios.get(`https://devps-production.up.railway.app/api/usuario/all`)
-                .then(response => response.data)
-                .catch(error => console.error('Error fetching data:', error));
-
-}
+export const getAllUsers = async () => {
+    return await axios.get(`https://devps-production.up.railway.app/api/usuario/all`);
+  }
