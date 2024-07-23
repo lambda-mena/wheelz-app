@@ -8,23 +8,14 @@ import AlertComponent from '../components/Alert/AlertComponent';
 import ReservationModal from '../components/Modal/ReservationModal'
 import { getAllVehicles } from '../interceptors/VehiculoAPIConexion';
 import { getAllCoverturas } from '../interceptors/CoverturaAPIConexion';
-import { fetchUsers } from '../interceptors/UsuarioAPIConexion';
+import { getAllUsers } from '../interceptors/ReservaAPIConexion';
 import { getAllReserva , postReserva } from '../interceptors/ReservaAPIConexion';
 
 
 export default function ReservationsPage() {
   //Constants
   const reservationFields = ['id' , 'idUsuario' , 'idcarro' , 'fechaEntrega' , 'fechaDevolucion' , 'idTipoCobertura' , 'estadoReserva' , 'precioTotal'];
-  const sampleReservations = [
-    { id: 1, covertura: 'WRT-241', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 2, covertura: 'WRT-242', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 3, covertura: 'WRT-243', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 4, covertura: 'WRT-244', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 5, covertura: 'WRT-245', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 6, covertura: 'WRT-246', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 7, covertura: 'WRT-247', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'},
-    { id: 8, covertura: 'WRT-248', estadoReserva: 'PENDIENTE', fechaEntrega: '2024-07-20T15:24:06.756Z', fechaDevolucion: '2024-07-20T15:24:06.756Z',precioTotal: '$20,000'}
-  ]
+  
   const entitiesPerPage = 3;
 
   //React states
@@ -63,9 +54,18 @@ export default function ReservationsPage() {
 
   useEffect(()=>{
     const searchUser = async ()=>{
-      const responseUser = (await fetchUsers()).data;
-      setUser(responseUser);
+      const responseUser = (await getAllUsers()).data;
+
+      const activeUsers = []
+      
+      responseUser.forEach(element => {
+        if(element.active === true){
+            activeUsers.push(element);
+        }}  )
+        
+      setUser(activeUsers);
     }
+
     searchUser();
   },[])
 

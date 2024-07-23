@@ -45,6 +45,7 @@ export const addUser = async (user) => {
             throw new Error('Faltan datos requeridos.');
         }
         const requestBody = { nombre, apellido, email, contraseña, documento, tipoUsuario };
+    
         const response = await axios.post(apiUrl, requestBody);
         if (response.status !== 200) {
             throw new Error('Error inesperado al agregar el usuario.');
