@@ -7,7 +7,7 @@ const SearchBar = ({ searchTerm, onSearchChange, onAddClick }) => {
         <div className="mb-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full">
             <div className="flex flex-col sm:flex-row w-full justify-between items-center space-y-2 sm:space-y-0 sm:space-x-2">
                 <TextInput
-                    placeholder="Buscar por nombre..."
+                    placeholder="Buscar por nombre, apellido o documento..."
                     value={searchTerm}
                     onChange={(e) => onSearchChange(e.target.value)}
                     className="w-full max-w-[90vw] sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg"

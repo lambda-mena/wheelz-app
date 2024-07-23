@@ -5,7 +5,7 @@ import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 const TableComponent = ({ data, onEdit, onDeactivate }) => {
     return (
         <div className="overflow-x-auto">
-            <Table striped responsive>
+            <Table striped="true" responsive="true">
                 <Table.Head>
                     <Table.HeadCell className="bg-gray-200">ID</Table.HeadCell>
                     <Table.HeadCell className="bg-gray-200">NOMBRE</Table.HeadCell>

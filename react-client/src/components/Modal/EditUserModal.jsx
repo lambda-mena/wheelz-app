@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { HiMail, HiOutlineUser, HiOutlineIdentification, HiLockClosed } from 'react-icons/hi';
 import TextInput from '../../styled-components/Inputs/TextInput';
 import PassInput from '../../styled-components/Inputs/PassInput';
-import { updateUser, fetchUserById } from '../../api/api'; // Ajusta la ruta según sea necesario
+import { updateUser, fetchUserById } from '../../interceptors/UsuarioAPIConexion'; // Ajusta la ruta según sea necesario
 
 const EditUserModal = ({ isOpen, onClose, userId, onSave }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm({

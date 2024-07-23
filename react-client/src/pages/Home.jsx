@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { IoCarSportSharp } from "react-icons/io5";
 import { RiReservedFill } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
-import { fetchUsers } from '../api/api';  // Import the function from api.js
+import { fetchUsers } from '../interceptors/UsuarioAPIConexion';  // Import the function from api.js
 
 export default function HomePage() {
   const [totalVehiculos, setTotalVehiculos] = useState(120); // Este valor es estático por ahora

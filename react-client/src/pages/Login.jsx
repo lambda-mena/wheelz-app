@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import TextInput from '../styled-components/Inputs/TextInput';
 import PassInput from '../styled-components/Inputs/PassInput';
 import { useAuth } from '../hooks/useAuth';
-import { postLoginUser } from '../interceptors/UsuarioAPIConexion';
+import { fetchUsers } from '../interceptors/UsuarioAPIConexion';
 import { useState } from 'react';
 import AlertComponent from '../components/Alert/AlertComponent';
 
@@ -20,7 +20,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const submit = (data) =>{
-        postLoginUser(data).then(res=>{
+        fetchUsers(data).then(res=>{
            
             if(res){
                 saveUserSession(data.email);
