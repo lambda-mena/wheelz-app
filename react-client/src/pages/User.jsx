@@ -27,7 +27,6 @@ const UserPage = () => {
     const loadUsers = useCallback(async () => {
         try {
             const users = await fetchUsers();
-            console.log('Usuarios cargados desde la API:', users);
             setData(users);
             setFilteredData(users);
             setTotalPages(Math.ceil(users.length / itemsPerPage));
@@ -44,12 +43,9 @@ const UserPage = () => {
 
     // Filtrar usuarios en función del término de búsqueda
     useEffect(() => {
-        console.log('Término de búsqueda:', searchTerm);
-        console.log('Datos originales:', data);
-        
+
         const filtered = data.filter(user => {
             if (!user || (typeof user.name !== 'string' && typeof user.apellido !== 'string' && typeof user.document !== 'number')) {
-                console.log('Usuario inválido:', user);
                 return false;
             }
             const fullName = `${user.name} ${user.apellido}`.trim().toLowerCase();
@@ -59,13 +55,8 @@ const UserPage = () => {
             const isMatchName = fullName.includes(searchTermLower);
             const isMatchDocument = document.includes(searchTermLower);
             
-            console.log(`Usuario: ${fullName}, Documento: ${document}, Coincide: ${isMatchName || isMatchDocument}`);
-            
             return isMatchName || isMatchDocument;
         });
-        
-        console.log('Datos filtrados:', filtered);
-        
         setFilteredData(filtered);
         setTotalPages(Math.ceil(filtered.length / itemsPerPage));
         setCurrentPage(1);
