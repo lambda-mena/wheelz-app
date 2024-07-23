@@ -33,3 +33,15 @@ comando en la terminal.
 npm run dev
 ```
 Con esto, enhorabuena haz iniciado el cliente de react en [localhost](http://localhost:5173)
+
+#### Para conectar con una API local
+#### Opción 1
+Lo unico necesario para cambiar hacia donde se dirige el cliente para interactuar con la API
+[wheelz-api](https://github.com/EdBigpun/wheelz-api) es cambiar los valores del archivo [.env](/react-client/.env)
+hacia algo por ejemplo:
+```bash
+VITE_BACKEND_HOST=http://localhost:8080
+```
+#### Opción 2
+Simplemente eliminar el archivo .env al fin y al cabo el cliente
+hara fallback intentandose conectar a una API desplegada localmente.

@@ -1,5 +1,7 @@
 import axios from 'axios';
-const apiUrl = 'https://devps-production.up.railway.app/api/usuario';
+import { API_URL } from './APIConexion';
+
+const apiUrl = `${API_URL}/usuario`;
 
 // Obtener todos los usuarios
 export const fetchUsers = async () => {
