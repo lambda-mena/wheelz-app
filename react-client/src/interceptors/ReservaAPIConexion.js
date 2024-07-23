@@ -12,14 +12,20 @@ export const postReserva = async (data) => {
         "idUsuario": parseInt(data.idUsuario),
         "idCarro": parseInt(data.idCarro),
         "idTipoCobertura": parseInt(data.idTipoCobertura),
-        "fechaEntrega": data.fechaEntrega,
-        "fechaDevolucion": data.fechaDevolucion,
+        "fechaEntrega": `${data.fechaEntrega}:00.160Z`,
+        "fechaDevolucion": `${data.fechaDevolucion}:00.160Z` ,
         "estadoReserva": data.estadoReserva
     }
 
     console.log(request);
 
-    return await axios.post(`${URL}`,request);
+    return await axios.post(`${URL}`,request , {
+        headers: {
+            'Content-Type': 'mmultipart/form-data; boundary=<calculated when request is sent>',
+            'Accept': '*/*' ,
+            'Access-Control-Allow-Origin': '*'
+        },
+    });
 }
 
 export const getReserva = async (data) => {
