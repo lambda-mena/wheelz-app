@@ -1,14 +1,24 @@
+import React, { useEffect, useState } from 'react';
 import { Button } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { IoCarSportSharp } from "react-icons/io5";
 import { RiReservedFill } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
+import { fetchUsers } from '../interceptors/UsuarioAPIConexion';  // Import the function from api.js
 
 export default function HomePage() {
-  // Datos de ejemplo, reemplázalos con datos reales
-  const totalVehiculos = 120;
-  const totalReservas = 35;
-  const totalUsuarios = 200;
+  const [totalVehiculos, setTotalVehiculos] = useState(120); // Este valor es estático por ahora
+  const [totalReservas, setTotalReservas] = useState(35); // Este valor es estático por ahora
+  const [totalUsuarios, setTotalUsuarios] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await fetchUsers();
+      setTotalUsuarios(users.length);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className='p-6'>

@@ -8,7 +8,7 @@ import AlertComponent from '../components/Alert/AlertComponent';
 import ReservationModal from '../components/Modal/ReservationModal'
 import { getAllVehicles } from '../interceptors/VehiculoAPIConexion';
 import { getAllCoverturas } from '../interceptors/CoverturaAPIConexion';
-import { getAllUsers } from '../interceptors/UsuarioAPIConexion';
+import { fetchUsers } from '../interceptors/UsuarioAPIConexion';
 import { getAllReserva , postReserva } from '../interceptors/ReservaAPIConexion';
 
 
@@ -63,7 +63,7 @@ export default function ReservationsPage() {
 
   useEffect(()=>{
     const searchUser = async ()=>{
-      const responseUser = (await getAllUsers()).data;
+      const responseUser = (await fetchUsers()).data;
       setUser(responseUser);
     }
     searchUser();

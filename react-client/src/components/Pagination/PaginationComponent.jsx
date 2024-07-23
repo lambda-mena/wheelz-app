@@ -3,19 +3,24 @@ import { Pagination } from "flowbite-react";
 
 const PaginationComponent = ({ currentPage, totalPages, totalUsers, onPageChange }) => {
     return (
-        <div className="flex flex-col items-center px-2 md:px-4">
-            <div className="text-sm text-gray-600 mb-2">
-                <span className="font-semibold">Total de usuarios:</span> {totalUsers}
+        <div className="flex flex-col items-center w-full px-4 py-2 sm:px-6 lg:px-8">
+            <div className="text-sm text-gray-700 mb-4">
+                <span className="font-medium">Total de usuarios:</span> {totalUsers}
             </div>
-            <Pagination
-                currentPage={currentPage}
-                onPageChange={onPageChange}
-                showIcons={true}
-                totalPages={totalPages}
-                className="max-w-[90vw] sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto"
-                previousLabel='Anterior'
-                nextLabel='Siguiente'
-            />
+            {totalPages > 1 && (
+                <div className="flex justify-center w-full overflow-x-auto">
+                    <Pagination
+                        currentPage={currentPage}
+                        onPageChange={onPageChange}
+                        showIcons={true}
+                        totalPages={totalPages}
+                        layout="pagination"
+                        previousLabel="Anterior"
+                        nextLabel="Siguiente"
+                        className="flex flex-wrap justify-center items-center space-x-1"
+                    />
+                </div>
+            )}
         </div>
     );
 };
