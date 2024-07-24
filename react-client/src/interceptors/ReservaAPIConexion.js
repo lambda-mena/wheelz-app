@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_URL } from './APIConexion';
 
-const URL = 'https://devps-production.up.railway.app/api/reserva';
+const URL = `${API_URL}/reserva`;
 
 export const putReserva = async (data) => {
     return await axios.put(`${URL}`,data);
