@@ -9,7 +9,7 @@ import ReservationModal from '../components/Modal/ReservationModal'
 import { getAllVehicles } from '../interceptors/VehiculoAPIConexion';
 import { getAllCoverturas } from '../interceptors/CoverturaAPIConexion';
 import { getAllUsers } from '../interceptors/ReservaAPIConexion';
-import { getAllReserva , postReserva } from '../interceptors/ReservaAPIConexion';
+import { getAllReserva , postReserva ,putReserva } from '../interceptors/ReservaAPIConexion';
 import SearchBar from '../components/Search/SearchBar';
 
 
@@ -122,7 +122,6 @@ export default function ReservationsPage() {
       });
       
       setEntities(convertToPage(configuredEntities));
-      setFilteredData(convertToPage(configuredEntities));
       setTotalPages(Math.ceil(filterRows(configuredEntities).length/entitiesPerPage));
     }
     fetchData();
@@ -140,16 +139,32 @@ export default function ReservationsPage() {
   };
 
   const onSave = (data) => {
-    console.log(data);
-    postReserva(data).then(res=>{
+
+    console.log(entities);
+    if(selectedEntity.id){
+      console.log('Editar')
+
+      putReserva(data, selectedEntity.id).then(res=>{
+        console.log(res);
         setOpenModal('');
         setSelectedEntity({});
     })
+
+
+    }else{
+      
+      postReserva(data).then(res=>{
+        setOpenModal('');
+        setSelectedEntity({});
+    })
+    }
+    
+    
     
   }
 
   const openSaveModal = (entities) => {
-    //console.log(entities);
+    
     setSelectedEntity(entities);
     setOpenModal('save');
   }
@@ -163,23 +178,7 @@ export default function ReservationsPage() {
     }
   }
 
-  useEffect(() => {
-
-    const filtered = entities.filter(user => {
-        if (!user || (typeof user.idUsuario !== 'string')) {
-            return false;
-        }
-        const fullName = `${user.idUsuario}`.trim().toLowerCase();
-        const searchTermLower = searchTerm.trim().toLowerCase(); 
-        
-        const isMatchName = fullName.includes(searchTermLower);
-        
-        return isMatchName
-    });
-    setFilteredData(filtered);
-    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-    setCurrentPage(1);
-}, [searchTerm, entities]);
+  
 
   return (
       <div className="max-w-[90vw] mx-auto flex flex-col">

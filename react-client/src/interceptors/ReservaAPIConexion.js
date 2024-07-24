@@ -3,8 +3,13 @@ import { API_URL } from './APIConexion';
 
 const URL = `${API_URL}/reserva`;
 
-export const putReserva = async (data) => {
-    return await axios.put(`${URL}`,data);
+export const putReserva = async (data , id) => {
+
+    const example = {
+        "estadoReserva": "ACEPTADO"
+    }
+
+    return await axios.put(`${URL}/${id}`,data);
   }
 
 export const postReserva = async (data) => {
