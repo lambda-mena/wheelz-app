@@ -10,6 +10,7 @@ import { getAllVehicles } from '../interceptors/VehiculoAPIConexion';
 import { getAllCoverturas } from '../interceptors/CoverturaAPIConexion';
 import { getAllUsers } from '../interceptors/ReservaAPIConexion';
 import { getAllReserva , postReserva } from '../interceptors/ReservaAPIConexion';
+import SearchBar from '../components/Search/SearchBar';
 
 
 export default function ReservationsPage() {
@@ -17,9 +18,11 @@ export default function ReservationsPage() {
   const reservationFields = ['id' , 'idUsuario' , 'idcarro' , 'fechaEntrega' , 'fechaDevolucion' , 'idTipoCobertura' , 'estadoReserva' , 'precioTotal'];
   
   const entitiesPerPage = 3;
+  const itemsPerPage = 3;
 
   //React states
   const [term, setTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const [entities, setEntities] = useState([]);
   const [openModal, setOpenModal] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,8 +30,10 @@ export default function ReservationsPage() {
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
   const [totalPages, setTotalPages] = useState(Math.ceil(entities.length/entitiesPerPage));
   const [cars,setCars] = useState([]);
-  const [covertura,setCovertura] = useState([]);
+  const [cobertura,setCobertura] = useState([]);
   const [user,setUser] = useState([]);
+  const [allUsers,setAllUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Util arrow functions
   const filterRows = (rows) => rows.filter((v) => v.estadoReserva.includes(term))
@@ -45,11 +50,11 @@ export default function ReservationsPage() {
   },[])
 
   useEffect(()=>{
-    const searchCovertura = async ()=>{
-      const responseCovertura = (await getAllCoverturas()).data;
-      setCovertura(responseCovertura);
+    const searchCobertura = async ()=>{
+      const resposeCobertura = (await getAllCoverturas()).data;
+      setCobertura(resposeCobertura);
     }
-    searchCovertura();
+    searchCobertura();
   },[])
 
   useEffect(()=>{
@@ -62,7 +67,7 @@ export default function ReservationsPage() {
         if(element.active === true){
             activeUsers.push(element);
         }}  )
-        
+      setAllUsers(responseUser);
       setUser(activeUsers);
     }
 
@@ -73,11 +78,55 @@ export default function ReservationsPage() {
   useEffect(() => {
     async function fetchData() {
       const savedEntities = (await getAllReserva()).data;
-      setEntities(convertToPage(savedEntities));
-      setTotalPages(Math.ceil(filterRows(savedEntities).length/entitiesPerPage));
+
+      const preConfiguredEntities = [...savedEntities];
+      const configuredEntities = [];
+
+      const todosLosUsuarios = allUsers;
+      const todosLosAutos = cars;
+      const todasLasCoberturas = cobertura
+
+      preConfiguredEntities.forEach(element => {
+
+        let nameUser ,nameAuto , typeCobertura;
+
+        for (let i = 0; i < todosLosUsuarios.length; i++) {
+          const user = todosLosUsuarios[i];
+
+          if(user.id === element.idUsuario){
+              nameUser = user.email;
+          }
+          
+        }
+
+        for (let i = 0; i < todosLosAutos.length; i++) {
+          const auto = todosLosAutos[i];
+
+          if(auto.id === element.idcarro){
+              nameAuto = auto.modelo;
+          }
+          
+        }
+        
+        for (let i = 0; i < todasLasCoberturas.length; i++) {
+          const cobertura = todasLasCoberturas[i];
+
+          if(cobertura.id === element.idTipoCobertura){
+              typeCobertura = cobertura.nombre;
+          }
+          
+        }
+
+        configuredEntities.push({...element, "idTipoCobertura": `${typeCobertura} `,
+                                "idcarro": `${nameAuto}` ,"idUsuario" : `${nameUser}`})
+      });
+      
+      setEntities(convertToPage(configuredEntities));
+      setFilteredData(convertToPage(configuredEntities));
+      setTotalPages(Math.ceil(filterRows(configuredEntities).length/entitiesPerPage));
     }
     fetchData();
-  }, [currentPage, alert, term, openModal]);
+  }, [currentPage, alert, term, openModal,allUsers]);
 
   const showServerResponse = (response) => {
     const message = response.status === 200 ? 'Operación exitosa.' : 'Operación fallida.';
@@ -93,15 +142,15 @@ export default function ReservationsPage() {
   const onSave = (data) => {
     console.log(data);
     postReserva(data).then(res=>{
-        console.log(res);
         setOpenModal('');
         setSelectedEntity({});
     })
     
   }
 
-  const openSaveModal = (sampleReservations) => {
-    setSelectedEntity(sampleReservations);
+  const openSaveModal = (entities) => {
+    //console.log(entities);
+    setSelectedEntity(entities);
     setOpenModal('save');
   }
 
@@ -114,6 +163,24 @@ export default function ReservationsPage() {
     }
   }
 
+  useEffect(() => {
+
+    const filtered = entities.filter(user => {
+        if (!user || (typeof user.idUsuario !== 'string')) {
+            return false;
+        }
+        const fullName = `${user.idUsuario}`.trim().toLowerCase();
+        const searchTermLower = searchTerm.trim().toLowerCase(); 
+        
+        const isMatchName = fullName.includes(searchTermLower);
+        
+        return isMatchName
+    });
+    setFilteredData(filtered);
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+    setCurrentPage(1);
+}, [searchTerm, entities]);
+
   return (
       <div className="max-w-[90vw] mx-auto flex flex-col">
         {alert.show && (
@@ -125,8 +192,13 @@ export default function ReservationsPage() {
         )}
         <h1 className="text-3xl my-4">Reservaciones</h1>
         <div className="mb-4">
-          <Search term="estatus" addLabel="Hacer reservación" onSearchChange={setTerm} onAddClick={() => openSaveModal({})} />
+          <SearchBar
+                      searchTerm={searchTerm}
+                      onSearchChange={setSearchTerm}
+                      onAddClick={() => openSaveModal({})}
+                  />
         </div>
+        
         <div className="overflow-x-auto mb-4">
           <Table fields={reservationFields} data={entities} onEdit={openSaveModal} onDelete={openDeleteModal}/>
         </div>
@@ -147,18 +219,19 @@ export default function ReservationsPage() {
           entityId={selectedEntity.placa} 
           entityName='Reservación' 
         />}
-      {openModal === 'save' && <ReservationModal
-          isOpen={openModal === 'save'}
-          onClose={() => setOpenModal('')}
-          onSave={onSave}
-          mode={selectedEntity.id ? 'edit' : 'add'}
-          data={selectedEntity}
-          entityName='Reservación'
-          entityId={selectedEntity.placa}
-          cars={cars}
-          covertura={covertura}
-          user={user}
-        />}
+
+        {openModal === 'save' && <ReservationModal
+            isOpen={openModal === 'save'}
+            onClose={() => setOpenModal('')}
+            onSave={onSave}
+            mode={selectedEntity.id ? 'edit' : 'add'}
+            data={selectedEntity}
+            entityName='Reservación'
+            entityId={selectedEntity.idUsuario}
+            cars={cars}
+            cobertura={cobertura}
+            user={user}
+          />}
     </div>
     
   )
