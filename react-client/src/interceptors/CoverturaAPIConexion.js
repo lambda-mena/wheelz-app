@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_URL } from './APIConexion';
 
-const URL = 'https://devps-production.up.railway.app/api/tipocobertura/'
+const URL = `${API_URL}/tipocobertura/`
 
 export const getAllCoverturas = async () => {
     return await axios.get(`${URL}all`);
