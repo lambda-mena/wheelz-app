@@ -15,7 +15,7 @@ import { Datepicker } from "flowbite-react";
 import { useEffect } from "react";
 import DateInput from "../../styled-components/Inputs/DateInput";
 
- const ReservationModal = ({ isOpen, onClose, onSave, data, mode, entityName, entityId , cars , covertura , user}) => {
+ const ReservationModal = ({ isOpen, onClose, onSave, data, mode, entityName, entityId , cars , cobertura , user}) => {
 
 const configuredCars = ()=>{
     const newArray = [];
@@ -29,9 +29,9 @@ const configuredCars = ()=>{
     return newArray;
 }
 
-const configuredCovertura = ()=>{
+const configuredCobertura = ()=>{
     const newArray = [];
-    covertura.forEach(e=>{
+    cobertura.forEach(e=>{
         let item = {
             'id' : e.id,
             'name' : e.nombre
@@ -46,7 +46,7 @@ const configuredUser = ()=>{
     user.forEach(e=>{
         let item = {
             'id' : e.id,
-            'name' : e.nombre
+            'name' : e.email
         }
         newArray.push(item);
     })
@@ -65,6 +65,8 @@ const configuredUser = ()=>{
     console.log(errors, e);
   }
 
+  console.log(data)
+
   return (
     <Modal show={isOpen} onClose={onClose}>
       <Modal.Header>
@@ -75,27 +77,27 @@ const configuredUser = ()=>{
           <div className="space-y-6">
             <div>
               <Label htmlFor="usuario" value="Usuario" />
-              <EnlacedSelectInput method={register} name="idUsuario" required={true} values={configuredUser()} />
+              <EnlacedSelectInput method={register} name="idUsuario" required={true} values={configuredUser()} defaultValue={data.idUsuario} />
             </div>
             <div>
               <Label htmlFor="vehiculo" value="Vehiculo" />
-              <EnlacedSelectInput method={register} name="idCarro" required={true} values={configuredCars()} />
+              <EnlacedSelectInput method={register} name="idCarro" required={true} values={configuredCars()} defaultValue={data.idcarro} />
             </div>
             <div>
-              <Label htmlFor="covertura" value="Covertura" />
-              <EnlacedSelectInput method={register} name="idTipoCobertura" required={true} values={configuredCovertura()} />
+              <Label htmlFor="covertura" value="Cobertura" />
+              <EnlacedSelectInput method={register} name="idTipoCobertura" required={true} values={configuredCobertura()} defaultValue={data.idTipoCobertura}/>
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="large" value="Fecha de entrega" />
                 </div>
-                <DateInput method={register} name="fechaEntrega" required={true}/>
+                <DateInput method={register} name="fechaEntrega" required={true} defaultValue={data.fechaEntrega}/>
             </div>
             <div>
                 <div className="mb-2 block">
                     <Label htmlFor="large" value="Fecha de devolución" />
                 </div>
-                <DateInput method={register} name="fechaDevolucion" required={true}/>
+                <DateInput method={register} name="fechaDevolucion" required={true} defaultValue={data.fechaDevolucion}/>
             </div>
             <input {...register('estadoReserva')} name="estadoReserva" type="text" hidden value={'PENDIENTE'} />
           </div>
